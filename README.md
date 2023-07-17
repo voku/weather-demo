@@ -1,3 +1,6 @@
+[![Build Status](https://github.com/voku/weather-demo/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/voku/weather-demo/actions)
+[![codecov.io](http://codecov.io/github/voku/weather-demo/coverage.svg?branch=main)](http://codecov.io/github/voku/weather-demo?branch=main)
+
 # Demo Weather App
 
 ### Intro
