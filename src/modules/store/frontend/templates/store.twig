@@ -1,0 +1,104 @@
+{# @var \WeatherApp\modules\store\enteries\Store store #}
+{# @var \WeatherApp\modules\store\enteries\StoreWeather weather #}
+{# @var \WeatherApp\modules\store\enteries\StoreWeather avg_weather #}
+{# @var \WeatherApp\modules\store\enteries\StoreWeather future_weather #}
+
+{% extends "layouts/base.twig" %}
+
+{% block body %}
+
+<div style="display:block;text-align:center; padding: 15px;">
+<a href="/">Zurück zur Übersicht</a>
+{% if edit == false %}
+    <a href="/store/{{ store.id }}/1">(edit)</a>
+{% endif %}
+</div>
+
+<section style="background-color: #f5f6f7;">
+    <div class="container py-5 h-50">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+
+                <div class="card bg-dark text-white" style="border-radius: 40px;">
+                    <div class="bg-image" style="border-radius: 35px;">
+                        <img style=" width: 100%;{% if edit == false %}height:500px;{% else %}height:800px;{% endif %}object-fit: cover; filter: blur(10px); -webkit-filter: blur(10px);" src="/img/weather_{{ weather.weatherDto.weatherCode }}.jpg"
+                             class="card-img" alt="weather" />
+                        <div class="mask" style="background-color: rgba(190, 216, 232, .5);"></div>
+                    </div>
+                    <div class="card-img-overlay text-dark p-5">
+                        <h4 class="mb-0">
+                            {% if edit == true %}
+                                <form method="post">
+                                    <input class="form-control"  title="Name" name="store[name]" type="text" value="{{ store.name }}">
+                                    <p>
+                                        <input class="form-control"  title="Straße" name="store[street]" type="text" value="{{ store.street }}">
+                                        <input class="form-control"  title="Hausnummer" name="store[houseNo]" type="text" value="{{ store.houseNo }}">
+                                        <br>
+                                        <input class="form-control"  title="PLZ" name="store[zip]" type="text" value="{{ store.zip }}">
+                                        <input class="form-control"  title="Stadt" name="store[city]" type="text" value="{{ store.city }}">
+                                    </p>
+                                    <input class="btn btn-secondary" type="submit" value="save">
+                                </form>
+                            {% else %}
+                                {{ store.name }}
+                                <p>
+                                    {{ store.street }} {{ store.houseNo }}
+                                    <br>
+                                    {{ store.zip }} {{ store.city }}
+                                </p>
+                            {% endif %}
+                        </h4>
+                        <p class="display-2 my-3">
+                            {{ weather.weatherDto.temperature }} {{ weather.weatherDto.temperatureUnit }}
+                            <i title="{{ weather.weatherDto.icon }}" style="text-align: right; display: inline-block; width: 30%;" class="wi wi-{{ weather.weatherDto.icon }}"></i>
+                        </p>
+                        <p class="mb-2">Niederschlag <i class="wi wi-umbrella"></i> : <strong>{{ weather.weatherDto.precipitation }} mm/h</strong></p>
+                        {% set sunshineInPercent = ((weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
+                        <p class="mb-2">Sonnenschein <i class="wi wi-sunrise"></i> : <strong>{% if sunshineInPercent <= 100 %}{{ sunshineInPercent }} %{% else %}{{ weather.weatherDto.sunshine }} {{ weather.weatherDto.sunshineUnit }}{% endif %}</strong></p>
+                        <p class="mb-2">Windgeschwindigkeit <i class="wi wi-strong-wind"></i> : <strong>{{ weather.weatherDto.windSpeed }} {{ weather.weatherDto.windSpeedUnit }}</strong></p>
+                        <p class="mb-2">Windrichtung <i class="wi wi-wind-direction"></i> : <strong>{{ weather.weatherDto.windDirection }} °</strong></p>
+                        <p class="mb-2">Luftfeuchtigkeit <i class="wi wi-humidity"></i> : <strong>{{ weather.weatherDto.humidity }} %</strong></p>
+                        <p class="mb-2">Luftdruck <i class="wi wi-barometer"></i> : <strong>{{ weather.weatherDto.pressure }} hPa</strong></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section style="background-color: #f5f6f7;">
+    <div class="container py-5 h-50">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8 col-xl-6">
+                {% if avg_weather %}
+                    <p>next 7 days (avg of the last 5 years || forecasts)</p>
+                    <p class="display-2 my-3">
+                        {{ avg_weather.weatherDto.temperature }} || {{ future_weather.weatherDto.temperature }} {{ avg_weather.weatherDto.temperatureUnit }}
+                    </p>
+                    <p class="mb-2">Niederschlag <i class="wi wi-umbrella"></i> : <strong>{{ avg_weather.weatherDto.precipitation }} || {{ future_weather.weatherDto.precipitation }} mm/h</strong></p>
+                    {% set sunshineInPercentAvg = ((avg_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
+                    {% set sunshineInPercentFuture = ((future_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
+                    <p class="mb-2">Sonnenschein <i class="wi wi-sunrise"></i> : <strong>{% if sunshineInPercentAvg <= 100 %}{{ sunshineInPercentAvg }} || {{ sunshineInPercentFuture }} %{% else %}{{ avg_weather.weatherDto.sunshine }} || {{ future_weather.weatherDto.sunshine }} {{ avg_weather.weatherDto.sunshineUnit }}{% endif %}</strong></p>
+                    <p class="mb-2">Windgeschwindigkeit <i class="wi wi-strong-wind"></i> : <strong>{{ avg_weather.weatherDto.windSpeed }} || {{ future_weather.weatherDto.windSpeed }} {{ avg_weather.weatherDto.windSpeedUnit }}</strong></p>
+                    <p class="mb-2">Luftfeuchtigkeit <i class="wi wi-humidity"></i> : <strong>{{ avg_weather.weatherDto.humidity }} %</strong></p>
+                    <p class="mb-2">Luftdruck <i class="wi wi-barometer"></i> : <strong>{{ avg_weather.weatherDto.pressure }} || {{ future_weather.weatherDto.pressure }} hPa</strong></p>
+                {% elseif future_weather %}
+                    <p>next 7 days (forecasts)</p>
+                    <p class="display-2 my-3">
+                        {{ future_weather.weatherDto.temperature }} {{ future_weather.weatherDto.temperatureUnit }}
+                    </p>
+                    <p class="mb-2">Niederschlag <i class="wi wi-umbrella"></i> : <strong>{{ future_weather.weatherDto.precipitation }} mm/h</strong></p>
+                    {% set sunshineInPercentFuture = ((future_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
+                    <p class="mb-2">Sonnenschein <i class="wi wi-sunrise"></i> : <strong>{% if sunshineInPercentFuture <= 100 %}{{ sunshineInPercentFuture }} %{% else %}{{ future_weather.weatherDto.sunshine }} {{ future_weather.weatherDto.sunshineUnit }}{% endif %}</strong></p>
+                    <p class="mb-2">Windgeschwindigkeit <i class="wi wi-strong-wind"></i> : <strong>{{ future_weather.weatherDto.windSpeed }} {{ future_weather.weatherDto.windSpeedUnit }}</strong></p>
+                    <p class="mb-2">Luftdruck <i class="wi wi-barometer"></i> : <strong>{{ future_weather.weatherDto.pressure }} hPa</strong></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<a style="display:block;text-align:center; padding: 15px;" href="/json/{{ store.id }}">JSON</a>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "layouts/base.twig" %}
+
+{% block body %}
+
+<h4>Stores</h4>
+<ul class="list-group">
+    {% for store in stores %}
+    <li class="list-group-item"><a href="/store/{{ store.id }}">{{ store.name }} ({{ store.city }})</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
