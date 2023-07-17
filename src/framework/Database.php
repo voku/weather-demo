@@ -8,7 +8,7 @@ class Database
 
     public function __construct()
     {
-        $this->pdo = new \PDO('sqlite:../database/weather.db');
+        $this->pdo = new \PDO('sqlite:' .  getcwd() . '/database/weather.db');
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 }
