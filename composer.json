@@ -22,7 +22,8 @@
         "php-di/php-di": "7.0.*",
         "relay/relay": "2.1.*",
         "twig/twig": "3.6.*",
-        "voku/weather": "0.5.*"
+        "voku/weather": "0.7.*",
+        "voku/httpful": "3.0.*"
     }
     ,
     "require-dev": {
