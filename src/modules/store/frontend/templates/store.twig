@@ -1,7 +1,7 @@
-{# @var \WeatherApp\modules\store\enteries\Store store #}
-{# @var \WeatherApp\modules\store\enteries\StoreWeather weather #}
-{# @var \WeatherApp\modules\store\enteries\StoreWeather avg_weather #}
-{# @var \WeatherApp\modules\store\enteries\StoreWeather future_weather #}
+{# @var \WeatherApp\modules\store\entities\Store store #}
+{# @var \WeatherApp\modules\store\entities\StoreWeather weather #}
+{# @var \WeatherApp\modules\store\entities\StoreWeather avg_weather #}
+{# @var \WeatherApp\modules\store\entities\StoreWeather future_weather #}
 
 {% extends "layouts/base.twig" %}
 
@@ -59,6 +59,10 @@
                         <p class="mb-2">Windrichtung <i class="wi wi-wind-direction"></i> : <strong>{{ weather.weatherDto.windDirection }} °</strong></p>
                         <p class="mb-2">Luftfeuchtigkeit <i class="wi wi-humidity"></i> : <strong>{{ weather.weatherDto.humidity }} %</strong></p>
                         <p class="mb-2">Luftdruck <i class="wi wi-barometer"></i> : <strong>{{ weather.weatherDto.pressure }} hPa</strong></p>
+
+                        <br>
+
+                        <small class="float-end">Daten vom: {{ weather.weatherDto.utcDateTime|date('d.m.Y | H:i') }} Uhr</small>
                     </div>
                 </div>
 
