@@ -76,10 +76,8 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-10 col-lg-8 col-xl-6">
                 {% if avg_weather %}
-                    <p>next 7 days (avg of the last 5 years || forecasts)</p>
-                    <p class="display-2 my-3">
-                        {{ avg_weather.weatherDto.temperature }} || {{ future_weather.weatherDto.temperature }} {{ avg_weather.weatherDto.temperatureUnit }}
-                    </p>
+                    <h6>Nächste 7 Tage (Durchschnitt der letzten 5 Jahre || Prognosen):</h6>
+                    <p class="mb-2">Temperatur <i class="wi wi-thermometer-exterior"></i> : <strong>{{ avg_weather.weatherDto.temperature }} || {{ future_weather.weatherDto.temperature }} {{ avg_weather.weatherDto.temperatureUnit }}</strong></p>
                     <p class="mb-2">Niederschlag <i class="wi wi-umbrella"></i> : <strong>{{ avg_weather.weatherDto.precipitation }} || {{ future_weather.weatherDto.precipitation }} mm/h</strong></p>
                     {% set sunshineInPercentAvg = ((avg_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
                     {% set sunshineInPercentFuture = ((future_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
@@ -88,10 +86,8 @@
                     <p class="mb-2">Luftfeuchtigkeit <i class="wi wi-humidity"></i> : <strong>{{ avg_weather.weatherDto.humidity }} %</strong></p>
                     <p class="mb-2">Luftdruck <i class="wi wi-barometer"></i> : <strong>{{ avg_weather.weatherDto.pressure }} || {{ future_weather.weatherDto.pressure }} hPa</strong></p>
                 {% elseif future_weather %}
-                    <p>next 7 days (forecasts)</p>
-                    <p class="display-2 my-3">
-                        {{ future_weather.weatherDto.temperature }} {{ future_weather.weatherDto.temperatureUnit }}
-                    </p>
+                    <h6>Nächste 7 Tage (Prognosen):</h6>
+                    <p class="mb-2">Temperatur <i class="wi wi-thermometer-exterior"></i> : <strong>{{ future_weather.weatherDto.temperature }} {{ future_weather.weatherDto.temperatureUnit }}</strong></p>
                     <p class="mb-2">Niederschlag <i class="wi wi-umbrella"></i> : <strong>{{ future_weather.weatherDto.precipitation }} mm/h</strong></p>
                     {% set sunshineInPercentFuture = ((future_weather.weatherDto.sunshine / 60)|round(2)) * 100 %}
                     <p class="mb-2">Sonnenschein <i class="wi wi-sunrise"></i> : <strong>{% if sunshineInPercentFuture <= 100 %}{{ sunshineInPercentFuture }} %{% else %}{{ future_weather.weatherDto.sunshine }} {{ future_weather.weatherDto.sunshineUnit }}{% endif %}</strong></p>
