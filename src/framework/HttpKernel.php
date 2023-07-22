@@ -3,12 +3,12 @@
 namespace WeatherApp\framework;
 
 use FastRoute\RouteCollector;
-use function FastRoute\simpleDispatcher;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Middlewares\FastRoute;
 use Middlewares\RequestHandler;
 use Relay\Relay;
+use function FastRoute\simpleDispatcher;
 
 class HttpKernel extends Kernel
 {
@@ -17,10 +17,7 @@ class HttpKernel extends Kernel
         $container = $this->getContainer();
 
         $routes = simpleDispatcher(static function (RouteCollector $r): void {
-            $r->get('/', 'WeatherApp\modules\store\frontend\StoreList\StoreListShowController');
-            $r->get('/store/{id:\d+}[/{edit:\d}]', 'WeatherApp\modules\store\frontend\Store\StoreItemShowController');
-            $r->post('/store/{id:\d+}[/{edit:\d}]', 'WeatherApp\modules\store\frontend\Store\StoreItemEditController');
-            $r->get('/json/{id:\d+}', 'WeatherApp\modules\store\frontend\Store\StoreItemJsonController');
+            HttpRouting::routes($r);
         });
 
         $middlewareQueue[] = new FastRoute($routes);
