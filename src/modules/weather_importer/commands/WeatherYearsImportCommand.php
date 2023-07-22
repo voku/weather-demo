@@ -23,7 +23,7 @@ final class WeatherYearsImportCommand
 
     public function execute(): int
     {
-        $weatherSaveService = $this->kernel->getContainer()->get('WeatherApp\modules\weather_importer\services\WeatherSaveService');
+        $weatherSaveService = $this->kernel->getContainer()->get(WeatherSaveService::class);
         \assert($weatherSaveService instanceof WeatherSaveService);
         $weatherSaveService->saveYearsWeatherInfoForAllStores($this->yearsToImport);
 

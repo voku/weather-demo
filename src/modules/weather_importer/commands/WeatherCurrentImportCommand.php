@@ -18,7 +18,7 @@ final class WeatherCurrentImportCommand
 
     public function execute(): int
     {
-        $weatherSaveService = $this->kernel->getContainer()->get('WeatherApp\modules\weather_importer\services\WeatherSaveService');
+        $weatherSaveService = $this->kernel->getContainer()->get(WeatherSaveService::class);
         \assert($weatherSaveService instanceof WeatherSaveService);
         $weatherSaveService->saveCurrentWeatherInfoForAllStores();
 

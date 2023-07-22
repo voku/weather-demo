@@ -20,7 +20,7 @@ final class StoreItemJsonControllerTest extends TestCase
 
     public function testController(): void
     {
-        $storeItemJsonController = self::$kernel->getContainer()->get('WeatherApp\modules\store\frontend\Store\StoreItemJsonController');
+        $storeItemJsonController = self::$kernel->getContainer()->get(StoreItemJsonController::class);
         \assert($storeItemJsonController instanceof StoreItemJsonController);
 
         $request = ServerRequestFactory::fromGlobals()->withAttribute('id', 1);
