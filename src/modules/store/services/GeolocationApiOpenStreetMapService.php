@@ -21,7 +21,7 @@ final class GeolocationApiOpenStreetMapService implements GeolocationApiServiceI
         $url = rtrim($url, '&');
 
         // DEBUG
-        var_dump($url);
+        //var_dump($url);
 
         return $url;
     }
