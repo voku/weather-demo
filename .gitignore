@@ -12,3 +12,6 @@ build/logs/
 
 # phpcs fixer
 .php-cs-fixer.cache
+
+# database
+database/weather.db
