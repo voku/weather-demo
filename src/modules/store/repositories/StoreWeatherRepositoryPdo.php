@@ -3,7 +3,7 @@
 namespace WeatherApp\modules\store\repositories;
 
 use voku\weather\WeatherDto;
-use WeatherApp\framework\Database;
+use WeatherApp\framework\storage\Database;
 use WeatherApp\modules\store\entities\StoreWeather;
 
 class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface

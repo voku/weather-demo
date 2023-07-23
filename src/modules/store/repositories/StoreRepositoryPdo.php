@@ -2,8 +2,8 @@
 
 namespace WeatherApp\modules\store\repositories;
 
-use WeatherApp\framework\Database;
-use WeatherApp\framework\RepositoryDataNotFoundException;
+use WeatherApp\framework\exceptions\RepositoryDataNotFoundException;
+use WeatherApp\framework\storage\Database;
 use WeatherApp\modules\store\entities\Store;
 
 class StoreRepositoryPdo implements StoreRepositoryInterface

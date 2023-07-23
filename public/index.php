@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use WeatherApp\framework\HttpKernel;
+use WeatherApp\framework\kernel\HttpKernel;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 

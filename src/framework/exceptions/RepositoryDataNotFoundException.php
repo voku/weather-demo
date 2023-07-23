@@ -1,6 +1,6 @@
 <?php
 
-namespace WeatherApp\framework;
+namespace WeatherApp\framework\exceptions;
 
 class RepositoryDataNotFoundException extends \Exception
 {

@@ -2,7 +2,7 @@
 
 use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
-use WeatherApp\framework\TerminalKernel;
+use WeatherApp\framework\kernel\TerminalKernel;
 use WeatherApp\modules\store\frontend\Store\StoreItemJsonController;
 
 /**

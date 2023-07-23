@@ -1,9 +1,10 @@
 <?php
 
-namespace WeatherApp\framework;
+namespace WeatherApp\framework\kernel;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use WeatherApp\framework\DependencyInjection;
 
 abstract class Kernel
 {

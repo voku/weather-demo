@@ -1,6 +1,6 @@
 <?php
 
-namespace WeatherApp\framework;
+namespace WeatherApp\framework\kernel;
 
 use FastRoute\RouteCollector;
 use Laminas\Diactoros\ServerRequestFactory;
@@ -8,6 +8,7 @@ use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Middlewares\FastRoute;
 use Middlewares\RequestHandler;
 use Relay\Relay;
+use WeatherApp\framework\routing\HttpRouting;
 use function FastRoute\simpleDispatcher;
 
 class HttpKernel extends Kernel

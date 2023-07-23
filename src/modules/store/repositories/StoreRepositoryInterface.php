@@ -2,7 +2,7 @@
 
 namespace WeatherApp\modules\store\repositories;
 
-use WeatherApp\framework\RepositoryDataNotFoundException;
+use WeatherApp\framework\exceptions\RepositoryDataNotFoundException;
 use WeatherApp\modules\store\entities\Store;
 
 interface StoreRepositoryInterface

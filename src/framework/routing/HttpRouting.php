@@ -1,6 +1,6 @@
 <?php
 
-namespace WeatherApp\framework;
+namespace WeatherApp\framework\routing;
 
 use FastRoute\RouteCollector;
 use WeatherApp\modules\store\frontend\Store\StoreItemEditController;

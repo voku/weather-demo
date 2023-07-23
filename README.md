@@ -7,6 +7,7 @@
 
 This demo project is running with middleware concept (PSR-15: HTTP Server Request Handlers):
 - FastRoute (https://github.com/nikic/FastRoute) as router 
+- PHP-DI (https://php-di.org/doc/) as dependency injection container
 - Twig (https://twig.symfony.com/) as Template-Engine for the view layer
 - PDO [sqlite] (https://www.php.net/manual/en/intro.pdo.php) as database layer
 - Weather Wrapper (https://github.com/voku/weather) as API services
@@ -18,6 +19,8 @@ This demo project is running with middleware concept (PSR-15: HTTP Server Reques
 - `/public/*` -> public web server directory (css, images, ...)
 - `/src/*` -> php code 
 - `/src/framework/*` -> meta code
+- `/src/framework/DependencyInjection.php` -> dependency injection definition
+- `/src/framework/routing/HttpRouting.php` -> http routing definition
 - `/src/modules/*` -> something like packages
 - `/src/modules/*/commands/*` -> cli commands
 - `/src/modules/*/entities/*` -> data objects

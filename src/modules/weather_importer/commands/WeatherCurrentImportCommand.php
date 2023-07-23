@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WeatherApp\modules\weather_importer\commands;
 
-use WeatherApp\framework\TerminalKernel;
+use WeatherApp\framework\kernel\TerminalKernel;
 use WeatherApp\modules\weather_importer\services\WeatherSaveService;
 
 final class WeatherCurrentImportCommand
