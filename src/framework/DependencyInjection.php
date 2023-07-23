@@ -10,6 +10,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use WeatherApp\framework\storage\Database;
 use WeatherApp\modules\store\frontend\Store\StoreItemEditController;
 use WeatherApp\modules\store\frontend\Store\StoreItemJsonController;
 use WeatherApp\modules\store\frontend\Store\StoreItemShowController;
@@ -18,7 +19,7 @@ use WeatherApp\modules\store\repositories\StoreRepositoryInterface;
 use WeatherApp\modules\store\repositories\StoreRepositoryPdo;
 use WeatherApp\modules\store\repositories\StoreWeatherRepositoryInterface;
 use WeatherApp\modules\store\repositories\StoreWeatherRepositoryPdo;
-use WeatherApp\modules\store\services\GeolocationApiFakeService;
+use WeatherApp\modules\store\services\GeolocationApiOpenStreetMapService;
 use WeatherApp\modules\store\services\GeolocationApiServiceInterface;
 use WeatherApp\modules\weather_importer\services\WeatherSaveService;
 use function DI\create;
@@ -77,7 +78,7 @@ final class DependencyInjection
             ),
             GeolocationApiServiceInterface::class            => static function () {
                 //return new GeolocationApiGoogleService($_ENV['google_maps_api_key']);
-                return new GeolocationApiFakeService();
+                return new GeolocationApiOpenStreetMapService();
             },
 
             //
