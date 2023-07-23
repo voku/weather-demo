@@ -2,6 +2,8 @@
 
 namespace WeatherApp\modules\store\services;
 
+use Httpful\Client;
+
 final class GeolocationApiGoogleService implements GeolocationApiServiceInterface
 {
     public const API_URL = 'maps.googleapis.com/maps/api/geocode/json';
@@ -39,36 +41,22 @@ final class GeolocationApiGoogleService implements GeolocationApiServiceInterfac
      */
     private function doCall(array $parameters = []): mixed
     {
-        $curl = curl_init();
+        $response = Client::get_request($this->createUrl($parameters))
+                                   ->withTimeout(10)
+                                   ->followRedirects()
+                                   ->send();
 
-        curl_setopt($curl, \CURLOPT_URL, $this->createUrl($parameters));
-        curl_setopt($curl, \CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, \CURLOPT_TIMEOUT, 10);
-        curl_setopt($curl, \CURLOPT_FOLLOWLOCATION, true);
+        $data = json_decode($response->getRawBody(), false, 512, JSON_THROW_ON_ERROR);
 
-        $response = curl_exec($curl);
-
-        $errorNumber = curl_errno($curl);
-        $errorMessage = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($errorNumber) {
-            throw new \Exception($errorMessage);
+        if (isset($data->error_message)) {
+            throw new \Exception('Error: ' . $data->error_message);
         }
 
-        if (is_bool($response)) {
-            throw new \Exception('Response should not be boolean.');
+        if (!isset($data->results)) {
+            throw new \Exception("no results found:" . print_r($response, true));
         }
 
-        $response = json_decode($response);
-
-        // API returns with an error
-        if (isset($response->error_message)) {
-            throw new \Exception($response->error_message);
-        }
-
-        return $response->results;
+        return $data->results;
     }
 
     /**
