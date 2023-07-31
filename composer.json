@@ -16,12 +16,12 @@
         "ext-pdo": "*",
         "ext-curl": "*",
         "laminas/laminas-diactoros": "3.0.*",
-        "laminas/laminas-httphandlerrunner": "2.6.*",
+        "laminas/laminas-httphandlerrunner": "2.7.*",
         "middlewares/fast-route": "v2.0.*",
         "middlewares/request-handler": "v2.0.*",
         "php-di/php-di": "7.0.*",
         "relay/relay": "2.1.*",
-        "twig/twig": "3.6.*",
+        "twig/twig": "3.7.*",
         "voku/weather": "0.7.*",
         "voku/httpful": "3.0.*"
     }
