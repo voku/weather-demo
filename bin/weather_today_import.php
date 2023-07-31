@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use WeatherApp\framework\kernel\TerminalKernel;
-use WeatherApp\modules\weather_importer\commands\WeatherFutureImportCommand;
+use WeatherApp\modules\weather_importer\commands\WeatherTodayImportCommand;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 

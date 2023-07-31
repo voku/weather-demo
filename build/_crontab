@@ -1,0 +1,4 @@
+*/30 * * * * php __YOUR_PATH_HERE__/bin/weather_current_import.php &> /dev/null
+0 * * * * php __YOUR_PATH_HERE__/bin/weather_today_import.php &> /dev/null
+0 0 * * * php __YOUR_PATH_HERE__/bin/weather_future_import.php &> /dev/null
+0 0 1 * * php __YOUR_PATH_HERE__/bin/weather_last_five_years_import.php &> /dev/null
