@@ -20,19 +20,30 @@ interface StoreWeatherRepositoryInterface
     public function fetchByStoreIdIfExists(int $store_id, int $data_type): ?StoreWeather;
 
     /**
+     * @return null|list<StoreWeather>
+     *
+     * @phpstan-param StoreWeather::DATA_TYPE_* $data_type
+     */
+    public function fetchMultiWeatherByStoreIdIfExists(int $store_id, int $data_type): ?array;
+
+    /**
      * @phpstan-param StoreWeather::DATA_TYPE_* $data_type
      */
     public function fetchByStoreIdAndWeekIfExists(int $store_id, int $data_type, int $week): ?StoreWeather;
 
     /**
+     * @param list<WeatherDto>|WeatherDto       $weatherDtoOrWeatherDtoList
+     *
      * @phpstan-param StoreWeather::DATA_TYPE_* $data_type
      */
-    public function replace(int $id, int $store_id, int $data_type, WeatherDto $weatherDto, ?int $week = null): bool;
+    public function replace(int $id, int $store_id, int $data_type, array|WeatherDto $weatherDtoOrWeatherDtoList, ?int $week = null): bool;
 
     /**
+     * @param list<WeatherDto>|WeatherDto       $weatherDtoOrWeatherDtoList
+     *
      * @phpstan-param StoreWeather::DATA_TYPE_* $data_type
      */
-    public function insert(int $store_id, int $data_type, WeatherDto $weatherDto, ?int $week = null): bool;
+    public function insert(int $store_id, int $data_type, array|WeatherDto $weatherDtoOrWeatherDtoList, ?int $week = null): bool;
 
     /**
      * @phpstan-param StoreWeather::DATA_TYPE_* $data_type

@@ -28,6 +28,8 @@ class StoreItemShowController
 
         $storeWeatherCurrentViewData = $this->storeWeatherRepository->fetchByStoreIdIfExists($id, StoreWeather::DATA_TYPE_CURRENT);
 
+        $storeWeatherTodayViewData = $this->storeWeatherRepository->fetchMultiWeatherByStoreIdIfExists($id, StoreWeather::DATA_TYPE_TODAY);
+
         $storeWeatherHistoricalAvgViewData = $this->storeWeatherRepository->fetchByStoreIdAndWeekIfExists(
             $id,
             StoreWeather::DATA_TYPE_HISTORICAL,
@@ -42,6 +44,7 @@ class StoreItemShowController
                 'store'          => $storeViewData,
                 'weather'        => $storeWeatherCurrentViewData,
                 'avg_weather'    => $storeWeatherHistoricalAvgViewData,
+                'today_weather'  => $storeWeatherTodayViewData,
                 'future_weather' => $storeWeatherFutureViewData,
                 'edit'           => $edit,
             ],

@@ -1,6 +1,7 @@
 {# @var \WeatherApp\modules\store\entities\Store store #}
 {# @var \WeatherApp\modules\store\entities\StoreWeather weather #}
 {# @var \WeatherApp\modules\store\entities\StoreWeather avg_weather #}
+{# @var \WeatherApp\modules\store\entities\StoreWeather[] today_weather #}
 {# @var \WeatherApp\modules\store\entities\StoreWeather future_weather #}
 
 {% extends "layouts/base.twig" %}
@@ -66,13 +67,122 @@
                     </div>
                 </div>
 
+                {% if today_weather %}
+                <div style="margin-top: 30px;">
+                  <canvas id="todayPrecipitation"></canvas>
+                </div>
+                <script>
+                  const ctxPrecipitation = document.getElementById('todayPrecipitation');
+
+                  const chartDataPrecipitation = [];
+                  const chartLabelPrecipitation = [];
+                  {% for today_weather_single in today_weather %}
+                    chartDataPrecipitation.push({{ today_weather_single.weatherDto.precipitation }});
+                    chartLabelPrecipitation.push('{{ today_weather_single.weatherDto.utcDateTime|date('H:i') }}');
+                  {% endfor %}
+
+                  new Chart(ctxPrecipitation, {
+                    type: 'line',
+                    data: {
+                      labels: chartLabelPrecipitation,
+                      datasets: [{
+                        label: 'Niederschlag',
+                        data: chartDataPrecipitation,
+                        borderWidth: 1,
+                        fill: false,
+                        cubicInterpolationMode: 'monotone',
+                        tension: 0.4
+                      }]
+                    },
+                    options: {
+                      responsive: true,
+                      interaction: {
+                        intersect: false,
+                      },
+                      scales: {
+                        x: {
+                          display: true,
+                          title: {
+                            display: true
+                          }
+                        },
+                        y: {
+                          display: true,
+                          title: {
+                            display: true,
+                            text: 'Niederschlag in mm/h'
+                          },
+                          suggestedMin: 0,
+                          suggestedMax: Math.max(...chartDataPrecipitation) + 0.2
+                        }
+                      }
+                    },
+                  });
+                </script>
+
+              <div style="margin-top: 30px;">
+                <canvas id="todaySunshine"></canvas>
+              </div>
+              <script>
+                const ctxSunshine = document.getElementById('todaySunshine');
+
+                const chartDataSunshine = [];
+                const chartLabelSunshine = [];
+                let chartUnitSunshine = '';
+                {% for today_weather_single in today_weather %}
+                  chartDataSunshine.push({{ today_weather_single.weatherDto.sunshine }});
+                  chartLabelSunshine.push('{{ today_weather_single.weatherDto.utcDateTime|date('H:i') }}');
+                  chartUnitSunshine = '{{ today_weather_single.weatherDto.sunshineUnit }}';
+                {% endfor %}
+
+                new Chart(ctxSunshine, {
+                  type: 'line',
+                  data: {
+                    labels: chartLabelSunshine,
+                    datasets: [{
+                      label: 'Sonnenschein',
+                      data: chartDataSunshine,
+                      borderColor: 'red',
+                      borderWidth: 1,
+                      fill: false,
+                      cubicInterpolationMode: 'monotone',
+                      tension: 0.4
+                    }]
+                  },
+                  options: {
+                    responsive: true,
+                    interaction: {
+                      intersect: false,
+                    },
+                    scales: {
+                      x: {
+                        display: true,
+                        title: {
+                          display: true
+                        }
+                      },
+                      y: {
+                        display: true,
+                        title: {
+                          display: true,
+                          text: chartUnitSunshine
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: Math.max(...chartDataSunshine) + 2
+                      }
+                    }
+                  },
+                });
+              </script>
+              {% endif %}
+
             </div>
         </div>
     </div>
 </section>
 
 <section style="background-color: #f5f6f7;">
-    <div class="container py-5 h-50">
+    <div class="container h-50">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-10 col-lg-8 col-xl-6">
                 {% if avg_weather %}

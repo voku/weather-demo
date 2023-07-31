@@ -69,6 +69,8 @@ class StoreItemEditController
 
         $this->weatherSaveService->saveFutureWeatherInfoForStore($store->id);
 
+        $this->weatherSaveService->saveTodayWeatherInfoForStore($store->id);
+
         $this->storeWeatherRepository->deleteAllByStoreId($store->id, StoreWeather::DATA_TYPE_HISTORICAL);
 
         return $this->response->withStatus(302)->withHeader('Location', '/store/' . $id . '?saved');

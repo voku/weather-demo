@@ -285,4 +285,48 @@ class WeatherSaveService
 
         $this->insertOrReplaceFutureWeatherData($weatherApi, $store);
     }
+
+    public function saveTodayWeatherInfoForAllStores(): void
+    {
+        $weatherApi = new WeatherApiService($this->client, $this->requestFactory);
+
+        foreach ($this->storeRepository->all() as $store) {
+            $this->insertOrReplaceTodayWeatherData($weatherApi, $store);
+        }
+    }
+
+    private function insertOrReplaceTodayWeatherData(WeatherApiService $weatherApi, Store $store): void
+    {
+        $weatherCollection = $weatherApi->getWeatherFuture(
+            $store->latitude,
+            $store->longitude,
+            new \DateTimeImmutable(),
+            (new \DateTimeImmutable())->modify('+23 hours')
+        );
+
+        $dbWeather = $this->storeWeatherRepository->fetchMultiWeatherByStoreIdIfExists($store->id, StoreWeather::DATA_TYPE_TODAY);
+        if ($dbWeather) {
+            $this->storeWeatherRepository->replace(
+                $dbWeather[0]->id,
+                $store->id,
+                StoreWeather::DATA_TYPE_TODAY,
+                $weatherCollection->getAll()
+            );
+        } else {
+            $this->storeWeatherRepository->insert(
+                $store->id,
+                StoreWeather::DATA_TYPE_TODAY,
+                $weatherCollection->getAll()
+            );
+        }
+    }
+
+    public function saveTodayWeatherInfoForStore(int $store_id): void
+    {
+        $weatherApi = new WeatherApiService($this->client, $this->requestFactory);
+
+        $store = $this->storeRepository->fetchById($store_id);
+
+        $this->insertOrReplaceTodayWeatherData($weatherApi, $store);
+    }
 }

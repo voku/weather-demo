@@ -12,6 +12,8 @@ class StoreWeather
 
     public const DATA_TYPE_FUTURE = 30;
 
+    public const DATA_TYPE_TODAY = 40;
+
     public function __construct(
         public readonly int $id,
         public readonly int $store_id,

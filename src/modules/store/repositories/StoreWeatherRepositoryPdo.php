@@ -38,13 +38,13 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
             $sql .= sprintf(' AND week = %d', $week);
         }
 
-        $stores = [];
+        $weatherList = [];
         $result = $this->pdo->query($sql);
         if ($result === false) {
             throw new \Exception('query error: ' . print_r($this->pdo->errorInfo(), true));
         }
         foreach ($result as $row) {
-            $stores[] = new StoreWeather(
+            $weatherList[] = new StoreWeather(
                 $row['id'],
                 $row['store_id'],
                 $row['data_type'],
@@ -52,7 +52,7 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
             );
         }
 
-        return $stores;
+        return $weatherList;
     }
 
     /**
@@ -60,17 +60,17 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
      */
     public function fetchByStoreIdAndWeekIfExists(int $store_id, int $data_type, int $week): ?StoreWeather
     {
-        $stores = $this->fetchAllByStoreId($store_id, $data_type, $week);
+        $weatherList = $this->fetchAllByStoreId($store_id, $data_type, $week);
 
-        if (\count($stores) === 0) {
+        if (\count($weatherList) === 0) {
             return null;
         }
 
-        if (\count($stores) > 1) {
-            throw new \Exception('We do not want to find multiple entries here, given: ' . print_r($stores, true));
+        if (\count($weatherList) > 1) {
+            throw new \Exception('We do not want to find multiple entries here, given: ' . print_r($weatherList, true));
         }
 
-        return $stores[0];
+        return $weatherList[0];
     }
 
     /**
@@ -78,25 +78,73 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
      */
     public function fetchByStoreIdIfExists(int $store_id, int $data_type): ?StoreWeather
     {
-        $stores = $this->fetchAllByStoreId($store_id, $data_type);
+        $weatherList = $this->fetchAllByStoreId($store_id, $data_type);
 
-        if (\count($stores) === 0) {
+        if (\count($weatherList) === 0) {
             return null;
         }
 
-        if (\count($stores) > 1) {
-            throw new \Exception('We do not want to find multiple entries here, given: ' . print_r($stores, true));
+        if (\count($weatherList) > 1) {
+            throw new \Exception('We do not want to find multiple entries here, given: ' . print_r($weatherList, true));
         }
 
-        return $stores[0];
+        return $weatherList[0];
     }
 
+    /**
+     * @return null|list<StoreWeather>
+     *
+     * @phpstan-param StoreWeather::DATA_TYPE_* $data_type
+     */
+    public function fetchMultiWeatherByStoreIdIfExists(int $store_id, int $data_type): ?array
+    {
+        $sql = sprintf('
+            SELECT 
+                * 
+            FROM 
+                stores_weather 
+            WHERE 
+                store_id = %d 
+            AND 
+                data_type = %d',
+                       $store_id, $data_type
+        );
+
+        $weatherList = [];
+        $result = $this->pdo->query($sql);
+        if ($result === false) {
+            throw new \Exception('query error: ' . print_r($this->pdo->errorInfo(), true));
+        }
+
+        foreach ($result as $row) {
+            $data = json_decode($row['json_data'], true, 512, \JSON_THROW_ON_ERROR);
+
+            foreach ($data as $item) {
+                $weatherList[] = new StoreWeather(
+                    $row['id'],
+                    $row['store_id'],
+                    $row['data_type'],
+                    WeatherDto::createFromJson(json_encode($item)),
+                );
+            }
+        }
+
+        if (\count($weatherList) === 0) {
+            return null;
+        }
+
+        return $weatherList;
+    }
+
+    /**
+     * @param list<WeatherDto>|WeatherDto $weatherDtoOrWeatherDtoList
+     */
     public function replace(
-        int $id,
-        int $store_id,
-        int $data_type,
-        WeatherDto $weatherDto,
-        ?int $week = null,
+        int        $id,
+        int        $store_id,
+        int        $data_type,
+        array|WeatherDto $weatherDtoOrWeatherDtoList,
+        ?int       $week = null,
     ): bool {
         $smt = $this->pdo->prepare('
             REPLACE INTO 
@@ -106,18 +154,21 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
         $smt->bindParam(':id', $id);
         $smt->bindParam(':store_id', $store_id);
         $smt->bindParam(':data_type', $data_type);
-        $json_data_weather = json_encode($weatherDto, \JSON_THROW_ON_ERROR);
+        $json_data_weather = json_encode($weatherDtoOrWeatherDtoList, \JSON_THROW_ON_ERROR);
         $smt->bindParam(':json_data', $json_data_weather);
         $smt->bindParam(':week', $week);
 
         return $smt->execute();
     }
 
+    /**
+     * @param list<WeatherDto>|WeatherDto $weatherDtoOrWeatherDtoList
+     */
     public function insert(
-        int $store_id,
-        int $data_type,
-        WeatherDto $weatherDto,
-        ?int $week = null,
+        int        $store_id,
+        int        $data_type,
+        array|WeatherDto $weatherDtoOrWeatherDtoList,
+        ?int       $week = null,
     ): bool {
         $smt = $this->pdo->prepare('
             INSERT INTO 
@@ -126,7 +177,7 @@ class StoreWeatherRepositoryPdo implements StoreWeatherRepositoryInterface
         ');
         $smt->bindParam(':store_id', $store_id);
         $smt->bindParam(':data_type', $data_type);
-        $json_data_weather = json_encode($weatherDto, \JSON_THROW_ON_ERROR);
+        $json_data_weather = json_encode($weatherDtoOrWeatherDtoList, \JSON_THROW_ON_ERROR);
         $smt->bindParam(':json_data', $json_data_weather);
         $smt->bindParam(':week', $week);
 
