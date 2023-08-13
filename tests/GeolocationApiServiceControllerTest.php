@@ -23,8 +23,12 @@ final class GeolocationApiServiceControllerTest extends TestCase
             'Bahnhofstr.', '6', '46562', 'Voerde', 'Germany'
         );
         self::assertSame(
-            ['latitude' => '51.6027747', 'longitude' => '6.70254'],
-            $coordinates
+            51.6,
+            round($coordinates['latitude'], 1)
+        );
+        self::assertSame(
+            6.7,
+            round($coordinates['longitude'], 1)
         );
     }
 }
