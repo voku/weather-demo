@@ -69,7 +69,7 @@ final class GeolocationApiOpenStreetMapService implements GeolocationApiServiceI
         ?string $country = null
     ): array {
         $items = [];
-        $variables = [$city, $zip, $country];
+        $variables = [$street, $houseNum, $city, $zip, $country];
         foreach ($variables as $variable) {
             if (empty($variable)) {
                 continue;
