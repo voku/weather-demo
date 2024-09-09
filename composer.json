@@ -21,7 +21,7 @@
         "middlewares/request-handler": "v2.0.*",
         "php-di/php-di": "7.0.*",
         "relay/relay": "2.1.*",
-        "twig/twig": "3.12.*",
+        "twig/twig": "3.14.*",
         "voku/weather": "0.7.*",
         "voku/httpful": "3.0.*"
     }
