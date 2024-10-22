@@ -20,7 +20,7 @@
         "middlewares/fast-route": "v2.0.*",
         "middlewares/request-handler": "v2.0.*",
         "php-di/php-di": "7.0.*",
-        "relay/relay": "2.1.*",
+        "relay/relay": "3.0.*",
         "twig/twig": "3.14.*",
         "voku/weather": "0.7.*",
         "voku/httpful": "3.0.*"
