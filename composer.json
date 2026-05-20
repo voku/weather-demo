@@ -19,7 +19,7 @@
         "laminas/laminas-httphandlerrunner": "2.13.*",
         "middlewares/fast-route": "v2.1.*",
         "middlewares/request-handler": "v2.1.*",
-        "php-di/php-di": "7.0.*",
+        "php-di/php-di": "7.1.*",
         "relay/relay": "3.0.*",
         "twig/twig": "3.26.*",
         "voku/weather": "0.7.*",
