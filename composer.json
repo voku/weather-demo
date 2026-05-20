@@ -23,7 +23,7 @@
         "relay/relay": "3.0.*",
         "twig/twig": "3.26.*",
         "voku/weather": "0.7.*",
-        "voku/httpful": "3.0.*"
+        "voku/httpful": "3.2.*"
     }
     ,
     "require-dev": {
